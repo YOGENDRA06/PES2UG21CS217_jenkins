@@ -1,0 +1,54 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Build') {
+            steps {
+                // Compile the .cpp file using shell script
+                sh 'g++ -o YOUR_PES2UG21CS200-1 samplefile.cpp' // Replace 'your_cpp_file.cpp' with your actual file name
+            }
+            post {
+                success {
+                    echo 'Build successful'
+                }
+                failure {
+                    echo 'Build failed, pipeline failed'
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                // Print output of .cpp file using shell script
+                sh './PES2UG21CS200-1' // Execute the compiled binary file
+            }
+            post {
+                success {
+                    echo 'Test passed'
+                }
+                failure {
+                    echo 'Test failed, pipeline failed'
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                // Add steps to deploy your project here
+                // This stage can be left empty if deployment is not applicable for your project
+                echo 'Deployment stage'
+            }
+            post {
+                success {
+                    echo 'Deployment successful'
+                }
+                failure {
+                    echo 'Deployment failed, pipeline failed'
+                }
+            }
+        }
+    }
+    post {
+        always {
+            echo 'Pipeline completed'
+        }
+    }
+}
